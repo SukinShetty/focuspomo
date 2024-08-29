@@ -119,36 +119,36 @@ export default function SimpleFocusTimer() {
   }
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-base-200 p-4">
-      <div className="card w-full max-w-md mx-auto bg-base-100 shadow-xl">
+    <div className="flex items-center justify-center min-h-screen p-4 text-white">
+      <div className="card w-full max-w-md mx-auto bg-base-300 shadow-xl">
         <div className="card-body">
-          <h2 className="card-title text-2xl font-bold text-center">Simple Focus Timer</h2>
+          <h2 className="card-title text-2xl font-bold text-center text-white">Simple Focus Timer</h2>
           <div className="flex flex-col items-center space-y-4">
             <motion.div 
               key={time}
               initial={{ scale: 1 }}
               animate={{ scale: showVisualAlert ? [1, 1.1, 1] : 1 }}
               transition={{ duration: 0.3, repeat: showVisualAlert ? 5 : 0 }}
-              className={`text-6xl font-bold tabular-nums ${showVisualAlert ? 'text-error' : ''}`}
+              className={`text-6xl font-bold tabular-nums ${showVisualAlert ? 'text-error' : 'text-white'}`}
             >
               {formatTime(time)}
             </motion.div>
             <div className="flex space-x-2">
-              <button onClick={() => changeTimerType(TIMER_TYPES.FOCUS)} className={`btn btn-sm ${timerType === TIMER_TYPES.FOCUS ? "btn-primary" : "btn-outline"}`}>
+              <button onClick={() => changeTimerType(TIMER_TYPES.FOCUS)} className={`btn btn-sm ${timerType === TIMER_TYPES.FOCUS ? "btn-primary" : "btn-outline"} text-white`}>
                 <Brain className="h-4 w-4 mr-2" />
                 Focus
               </button>
-              <button onClick={() => changeTimerType(TIMER_TYPES.SHORT_BREAK)} className={`btn btn-sm ${timerType === TIMER_TYPES.SHORT_BREAK ? "btn-primary" : "btn-outline"}`}>
+              <button onClick={() => changeTimerType(TIMER_TYPES.SHORT_BREAK)} className={`btn btn-sm ${timerType === TIMER_TYPES.SHORT_BREAK ? "btn-primary" : "btn-outline"} text-white`}>
                 <Coffee className="h-4 w-4 mr-2" />
                 Short Break
               </button>
-              <button onClick={() => changeTimerType(TIMER_TYPES.LONG_BREAK)} className={`btn btn-sm ${timerType === TIMER_TYPES.LONG_BREAK ? "btn-primary" : "btn-outline"}`}>
+              <button onClick={() => changeTimerType(TIMER_TYPES.LONG_BREAK)} className={`btn btn-sm ${timerType === TIMER_TYPES.LONG_BREAK ? "btn-primary" : "btn-outline"} text-white`}>
                 <Coffee className="h-4 w-4 mr-2" />
                 Long Break
               </button>
             </div>
             <select 
-              className="select select-bordered w-full max-w-xs" 
+              className="select select-bordered w-full max-w-xs text-white" 
               onChange={(e) => setTime(parseInt(e.target.value) * 60)}
               value={time / 60}
             >
@@ -165,9 +165,9 @@ export default function SimpleFocusTimer() {
                   placeholder="Add a new task"
                   value={newTaskText}
                   onChange={(e) => setNewTaskText(e.target.value)}
-                  className="input input-bordered flex-grow"
+                  className="input input-bordered flex-grow text-white"
                 />
-                <button onClick={addTask} className="btn btn-square btn-outline">
+                <button onClick={addTask} className="btn btn-square btn-outline text-white">
                   <Plus className="h-4 w-4" />
                 </button>
               </div>
@@ -178,7 +178,7 @@ export default function SimpleFocusTimer() {
                     initial={{ opacity: 0, y: -10 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -10 }}
-                    className="flex items-center space-x-2 bg-base-200 p-2 rounded mb-2"
+                    className="flex items-center space-x-2 bg-base-200 p-2 rounded mb-2 text-white"
                   >
                     <input
                       type="checkbox"
@@ -187,17 +187,17 @@ export default function SimpleFocusTimer() {
                       className="checkbox"
                     />
                     <label
-                      className={`flex-grow ${task.completed ? 'line-through text-base-content/50' : ''}`}
+                      className={`flex-grow ${task.completed ? 'line-through text-white/50' : 'text-white'}`}
                     >
                       {task.text}
                     </label>
                     <button
                       onClick={() => selectTask(task)}
-                      className={`btn btn-xs ${currentTask?.id === task.id ? 'btn-primary' : 'btn-ghost'}`}
+                      className={`btn btn-xs ${currentTask?.id === task.id ? 'btn-primary' : 'btn-ghost'} text-white`}
                     >
                       Select
                     </button>
-                    <button onClick={() => removeTask(task.id)} className="btn btn-ghost btn-xs">
+                    <button onClick={() => removeTask(task.id)} className="btn btn-ghost btn-xs text-white">
                       <Trash2 className="h-4 w-4" />
                     </button>
                   </motion.div>
@@ -205,16 +205,16 @@ export default function SimpleFocusTimer() {
               </AnimatePresence>
             </div>
             <div className="flex space-x-4">
-              <button onClick={toggleTimer} className="btn btn-outline btn-circle">
+              <button onClick={toggleTimer} className="btn btn-outline btn-circle text-white">
                 {isActive ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
               </button>
-              <button onClick={resetTimer} className="btn btn-outline btn-circle">
+              <button onClick={resetTimer} className="btn btn-outline btn-circle text-white">
                 <RotateCcw className="h-4 w-4" />
               </button>
             </div>
-            <div className="text-sm">Sessions completed: {sessionCount}</div>
+            <div className="text-sm text-white">Sessions completed: {sessionCount}</div>
             {currentTask && (
-              <div className="text-sm font-medium">
+              <div className="text-sm font-medium text-white">
                 Current task: {currentTask.text}
               </div>
             )}
