@@ -119,7 +119,7 @@ export default function SimpleFocusTimer() {
   }
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-base-200 p-2 sm:p-4">
+    <div className="flex items-center justify-center min-h-screen bg-base-100 p-2 sm:p-4">
       <div className="card w-full max-w-[98%] sm:max-w-md mx-auto bg-base-100 shadow-xl">
         <div className="card-body p-3 sm:p-6">
           <h2 className="card-title text-xl sm:text-2xl font-bold text-center mb-2 sm:mb-4">Simple Focus Timer</h2>
@@ -133,18 +133,18 @@ export default function SimpleFocusTimer() {
             >
               {formatTime(time)}
             </motion.div>
-            <div className="flex justify-center gap-2 sm:gap-3 w-full">
+            <div className="flex justify-center gap-1 sm:gap-3 w-full">
               <button onClick={() => changeTimerType(TIMER_TYPES.FOCUS)} className={`btn btn-sm sm:btn-md flex-1 ${timerType === TIMER_TYPES.FOCUS ? "btn-primary" : "btn-outline"}`}>
-                <Brain className="h-4 w-4 sm:h-5 sm:w-5 mr-1 sm:mr-2" />
-                <span className="text-xs sm:text-sm">Focus</span>
+                <Brain className="h-3 w-3 sm:h-5 sm:w-5 mr-1 sm:mr-2" />
+                <span className="text-[10px] sm:text-sm">Focus</span>
               </button>
               <button onClick={() => changeTimerType(TIMER_TYPES.SHORT_BREAK)} className={`btn btn-sm sm:btn-md flex-1 ${timerType === TIMER_TYPES.SHORT_BREAK ? "btn-primary" : "btn-outline"}`}>
-                <Coffee className="h-4 w-4 sm:h-5 sm:w-5 mr-1 sm:mr-2" />
-                <span className="text-xs sm:text-sm">Short Break</span>
+                <Coffee className="h-3 w-3 sm:h-5 sm:w-5 mr-1 sm:mr-2" />
+                <span className="text-[10px] sm:text-sm">Short</span>
               </button>
               <button onClick={() => changeTimerType(TIMER_TYPES.LONG_BREAK)} className={`btn btn-sm sm:btn-md flex-1 ${timerType === TIMER_TYPES.LONG_BREAK ? "btn-primary" : "btn-outline"}`}>
-                <Coffee className="h-4 w-4 sm:h-5 sm:w-5 mr-1 sm:mr-2" />
-                <span className="text-xs sm:text-sm">Long Break</span>
+                <Coffee className="h-3 w-3 sm:h-5 sm:w-5 mr-1 sm:mr-2" />
+                <span className="text-[10px] sm:text-sm">Long</span>
               </button>
             </div>
             <select 
