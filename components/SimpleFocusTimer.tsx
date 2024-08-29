@@ -119,67 +119,36 @@ export default function SimpleFocusTimer() {
   }
 
   return (
-<<<<<<< HEAD
     <div className="flex items-center justify-center min-h-screen bg-base-200 p-2 sm:p-4">
       <div className="card w-full max-w-[95%] sm:max-w-md mx-auto bg-base-100 shadow-xl">
-        <div className="card-body p-3 sm:p-6">
-          <h2 className="card-title text-lg sm:text-2xl font-bold text-center mb-2 sm:mb-4">Simple Focus Timer</h2>
-          <div className="flex flex-col items-center space-y-2 sm:space-y-4">
-=======
-    <div className="flex items-center justify-center min-h-screen p-4 text-white">
-      <div className="card w-full max-w-md mx-auto bg-base-300 shadow-xl">
-        <div className="card-body">
-          <h2 className="card-title text-2xl font-bold text-center text-white">Simple Focus Timer</h2>
-          <div className="flex flex-col items-center space-y-4">
->>>>>>> 6d2dcf408fe02f9dfae630356069bb9f03037f98
+        <div className="card-body p-2 sm:p-6">
+          <h2 className="card-title text-base sm:text-2xl font-bold text-center mb-1 sm:mb-4">Simple Focus Timer</h2>
+          <div className="flex flex-col items-center space-y-1 sm:space-y-4">
             <motion.div 
               key={time}
               initial={{ scale: 1 }}
               animate={{ scale: showVisualAlert ? [1, 1.1, 1] : 1 }}
               transition={{ duration: 0.3, repeat: showVisualAlert ? 5 : 0 }}
-<<<<<<< HEAD
-              className={`text-3xl sm:text-5xl font-bold tabular-nums ${showVisualAlert ? 'text-error' : ''}`}
+              className={`text-2xl sm:text-5xl font-bold tabular-nums ${showVisualAlert ? 'text-error' : ''}`}
             >
               {formatTime(time)}
             </motion.div>
-            <div className="flex flex-wrap justify-center gap-1 sm:gap-2">
-              <button onClick={() => changeTimerType(TIMER_TYPES.FOCUS)} className={`btn btn-xs sm:btn-sm ${timerType === TIMER_TYPES.FOCUS ? "btn-primary" : "btn-outline"}`}>
-                <Brain className="h-3 w-3 sm:h-4 sm:w-4 mr-1" />
+            <div className="flex flex-wrap justify-center gap-1 sm:gap-2 w-full">
+              <button onClick={() => changeTimerType(TIMER_TYPES.FOCUS)} className={`btn btn-xs sm:btn-sm flex-1 ${timerType === TIMER_TYPES.FOCUS ? "btn-primary" : "btn-outline"}`}>
+                <Brain className="h-3 w-3 sm:h-4 sm:w-4 mr-1 hidden sm:inline" />
                 Focus
               </button>
-              <button onClick={() => changeTimerType(TIMER_TYPES.SHORT_BREAK)} className={`btn btn-xs sm:btn-sm ${timerType === TIMER_TYPES.SHORT_BREAK ? "btn-primary" : "btn-outline"}`}>
-                <Coffee className="h-3 w-3 sm:h-4 sm:w-4 mr-1" />
+              <button onClick={() => changeTimerType(TIMER_TYPES.SHORT_BREAK)} className={`btn btn-xs sm:btn-sm flex-1 ${timerType === TIMER_TYPES.SHORT_BREAK ? "btn-primary" : "btn-outline"}`}>
+                <Coffee className="h-3 w-3 sm:h-4 sm:w-4 mr-1 hidden sm:inline" />
                 Short
               </button>
-              <button onClick={() => changeTimerType(TIMER_TYPES.LONG_BREAK)} className={`btn btn-xs sm:btn-sm ${timerType === TIMER_TYPES.LONG_BREAK ? "btn-primary" : "btn-outline"}`}>
-                <Coffee className="h-3 w-3 sm:h-4 sm:w-4 mr-1" />
+              <button onClick={() => changeTimerType(TIMER_TYPES.LONG_BREAK)} className={`btn btn-xs sm:btn-sm flex-1 ${timerType === TIMER_TYPES.LONG_BREAK ? "btn-primary" : "btn-outline"}`}>
+                <Coffee className="h-3 w-3 sm:h-4 sm:w-4 mr-1 hidden sm:inline" />
                 Long
               </button>
             </div>
             <select 
               className="select select-bordered select-xs sm:select-sm w-full max-w-[180px] sm:max-w-xs text-xs sm:text-sm" 
-=======
-              className={`text-6xl font-bold tabular-nums ${showVisualAlert ? 'text-error' : 'text-white'}`}
-            >
-              {formatTime(time)}
-            </motion.div>
-            <div className="flex space-x-2">
-              <button onClick={() => changeTimerType(TIMER_TYPES.FOCUS)} className={`btn btn-sm ${timerType === TIMER_TYPES.FOCUS ? "btn-primary" : "btn-outline"} text-white`}>
-                <Brain className="h-4 w-4 mr-2" />
-                Focus
-              </button>
-              <button onClick={() => changeTimerType(TIMER_TYPES.SHORT_BREAK)} className={`btn btn-sm ${timerType === TIMER_TYPES.SHORT_BREAK ? "btn-primary" : "btn-outline"} text-white`}>
-                <Coffee className="h-4 w-4 mr-2" />
-                Short Break
-              </button>
-              <button onClick={() => changeTimerType(TIMER_TYPES.LONG_BREAK)} className={`btn btn-sm ${timerType === TIMER_TYPES.LONG_BREAK ? "btn-primary" : "btn-outline"} text-white`}>
-                <Coffee className="h-4 w-4 mr-2" />
-                Long Break
-              </button>
-            </div>
-            <select 
-              className="select select-bordered w-full max-w-xs text-white" 
->>>>>>> 6d2dcf408fe02f9dfae630356069bb9f03037f98
               onChange={(e) => setTime(parseInt(e.target.value) * 60)}
               value={time / 60}
             >
@@ -190,20 +159,19 @@ export default function SimpleFocusTimer() {
               <option value={60}>60 minutes</option>
             </select>
             <div className="w-full">
-              <div className="flex space-x-1 sm:space-x-2 mb-2">
+              <div className="flex space-x-1 sm:space-x-2 mb-1 sm:mb-2">
                 <input
                   type="text"
                   placeholder="Add a new task"
                   value={newTaskText}
                   onChange={(e) => setNewTaskText(e.target.value)}
-<<<<<<< HEAD
                   className="input input-xs sm:input-sm input-bordered flex-grow text-xs sm:text-sm"
                 />
                 <button onClick={addTask} className="btn btn-xs sm:btn-sm btn-square btn-outline">
                   <Plus className="h-3 w-3 sm:h-4 sm:w-4" />
                 </button>
               </div>
-              <div className="max-h-[25vh] sm:max-h-[30vh] overflow-y-auto">
+              <div className="max-h-[20vh] sm:max-h-[30vh] overflow-y-auto">
                 <AnimatePresence>
                   {tasks.map(task => (
                     <motion.div
@@ -238,7 +206,7 @@ export default function SimpleFocusTimer() {
                 </AnimatePresence>
               </div>
             </div>
-            <div className="flex space-x-4 mt-2 sm:mt-4">
+            <div className="flex space-x-4 mt-1 sm:mt-4">
               <button onClick={toggleTimer} className="btn btn-xs sm:btn-sm btn-outline btn-circle">
                 {isActive ? <Pause className="h-3 w-3 sm:h-4 sm:w-4" /> : <Play className="h-3 w-3 sm:h-4 sm:w-4" />}
               </button>
@@ -249,58 +217,6 @@ export default function SimpleFocusTimer() {
             <div className="text-[8px] sm:text-xs">Sessions completed: {sessionCount}</div>
             {currentTask && (
               <div className="text-[8px] sm:text-xs font-medium">
-=======
-                  className="input input-bordered flex-grow text-white"
-                />
-                <button onClick={addTask} className="btn btn-square btn-outline text-white">
-                  <Plus className="h-4 w-4" />
-                </button>
-              </div>
-              <AnimatePresence>
-                {tasks.map(task => (
-                  <motion.div
-                    key={task.id}
-                    initial={{ opacity: 0, y: -10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -10 }}
-                    className="flex items-center space-x-2 bg-base-200 p-2 rounded mb-2 text-white"
-                  >
-                    <input
-                      type="checkbox"
-                      checked={task.completed}
-                      onChange={() => completeTask(task.id)}
-                      className="checkbox"
-                    />
-                    <label
-                      className={`flex-grow ${task.completed ? 'line-through text-white/50' : 'text-white'}`}
-                    >
-                      {task.text}
-                    </label>
-                    <button
-                      onClick={() => selectTask(task)}
-                      className={`btn btn-xs ${currentTask?.id === task.id ? 'btn-primary' : 'btn-ghost'} text-white`}
-                    >
-                      Select
-                    </button>
-                    <button onClick={() => removeTask(task.id)} className="btn btn-ghost btn-xs text-white">
-                      <Trash2 className="h-4 w-4" />
-                    </button>
-                  </motion.div>
-                ))}
-              </AnimatePresence>
-            </div>
-            <div className="flex space-x-4">
-              <button onClick={toggleTimer} className="btn btn-outline btn-circle text-white">
-                {isActive ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
-              </button>
-              <button onClick={resetTimer} className="btn btn-outline btn-circle text-white">
-                <RotateCcw className="h-4 w-4" />
-              </button>
-            </div>
-            <div className="text-sm text-white">Sessions completed: {sessionCount}</div>
-            {currentTask && (
-              <div className="text-sm font-medium text-white">
->>>>>>> 6d2dcf408fe02f9dfae630356069bb9f03037f98
                 Current task: {currentTask.text}
               </div>
             )}
