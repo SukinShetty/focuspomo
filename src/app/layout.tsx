@@ -1,27 +1,23 @@
-import type { Metadata } from "next";
 import { Ubuntu } from "next/font/google";
 import "./globals.css";
 
 const ubuntu = Ubuntu({ 
-  weight: ['300', '400', '500', '700'],
   subsets: ["latin"],
-  display: 'swap',
-  variable: '--font-ubuntu',
+  weight: ["300", "400", "500", "700"],
 });
-
-export const metadata: Metadata = {
-  title: "Simple Focus Timer",
-  description: "A Pomodoro-style focus timer application",
-};
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="en">
-      <body className={ubuntu.className}>{children}</body>
+      <body className={`${ubuntu.className} min-h-screen bg-gray-100`}>
+        <main className="container mx-auto px-4 py-8">
+          {children}
+        </main>
+      </body>
     </html>
   );
 }
