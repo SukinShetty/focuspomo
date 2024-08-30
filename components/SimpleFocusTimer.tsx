@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useCallback, useRef } from 'react'
+import React, { useState, useEffect, useCallback, useRef } from 'react'
 import { Play, Pause, RotateCcw, Coffee, Brain, Plus, Trash2, VolumeX, Volume2 } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 
@@ -16,20 +16,20 @@ interface Task {
   completed: boolean;
 }
 
-export default function SimpleFocusTimer() {
-  const [time, setTime] = useState(25 * 60)
-  const [isActive, setIsActive] = useState(false)
-  const [timerType, setTimerType] = useState(TIMER_TYPES.FOCUS)
-  const [sessionCount, setSessionCount] = useState(0)
-  const [currentTask, setCurrentTask] = useState<Task | null>(null)
-  const [tasks, setTasks] = useState<Task[]>([])
-  const [newTaskText, setNewTaskText] = useState('')
-  const [showVisualAlert, setShowVisualAlert] = useState(false)
-  const [isRinging, setIsRinging] = useState(false)
-  const [isMuted, setIsMuted] = useState(false)
-  const audioContextRef = useRef<AudioContext | null>(null)
-  const oscillatorRef = useRef<OscillatorNode | null>(null)
-  const gainNodeRef = useRef<GainNode | null>(null)
+const SimpleFocusTimer: React.FC = () => {
+  const [time, setTime] = useState(25 * 60);
+  const [isActive, setIsActive] = useState(false);
+  const [timerType, setTimerType] = useState(TIMER_TYPES.FOCUS);
+  const [sessionCount, setSessionCount] = useState(0);
+  const [currentTask, setCurrentTask] = useState<Task | null>(null);
+  const [tasks, setTasks] = useState<Task[]>([]);
+  const [newTaskText, setNewTaskText] = useState('');
+  const [showVisualAlert, setShowVisualAlert] = useState(false);
+  const [isRinging, setIsRinging] = useState(false);
+  const [isMuted, setIsMuted] = useState(false);
+  const audioContextRef = useRef<AudioContext | null>(null);
+  const oscillatorRef = useRef<OscillatorNode | null>(null);
+  const gainNodeRef = useRef<GainNode | null>(null);
 
   const toggleMute = useCallback(() => {
     setIsMuted(prevMuted => !prevMuted);
@@ -74,71 +74,71 @@ export default function SimpleFocusTimer() {
   }, []);
 
   useEffect(() => {
-    let interval: NodeJS.Timeout | null = null
+    let interval: NodeJS.Timeout | null = null;
 
     if (isActive && time > 0) {
       interval = setInterval(() => {
-        setTime((prevTime) => prevTime - 1)
-      }, 1000)
+        setTime((prevTime) => prevTime - 1);
+      }, 1000);
     } else if (time === 0) {
-      setIsActive(false)
-      triggerVisualAlert()
-      startRingingSound() // Start the continuous ringing sound
+      setIsActive(false);
+      triggerVisualAlert();
+      startRingingSound(); // Start the continuous ringing sound
       if (timerType === TIMER_TYPES.FOCUS) {
-        setSessionCount((prevCount) => prevCount + 1)
+        setSessionCount((prevCount) => prevCount + 1);
         if (currentTask) {
-          completeTask(currentTask.id)
+          completeTask(currentTask.id);
         }
       }
     }
 
     return () => {
-      if (interval) clearInterval(interval)
+      if (interval) clearInterval(interval);
       // Cleanup function to stop and disconnect audio when component unmounts
       stopRingingSound();
       if (audioContextRef.current) {
         audioContextRef.current.close();
         audioContextRef.current = null;
       }
-    }
-  }, [isActive, time, timerType, currentTask, startRingingSound, stopRingingSound])
+    };
+  }, [isActive, time, timerType, currentTask, startRingingSound, stopRingingSound]);
 
   const toggleTimer = () => {
-    setIsActive(!isActive)
-  }
+    setIsActive(!isActive);
+  };
 
   const resetTimer = () => {
-    setIsActive(false)
-    setTime(getTimerDuration(timerType))
-  }
+    setIsActive(false);
+    setTime(getTimerDuration(timerType));
+  };
 
   const changeTimerType = (type: string) => {
-    setIsActive(false)
-    setTimerType(type)
-    setTime(getTimerDuration(type))
-  }
+    setIsActive(false);
+    setTimerType(type);
+    setTime(getTimerDuration(type));
+  };
 
   const getTimerDuration = (type: string) => {
     switch (type) {
       case TIMER_TYPES.SHORT_BREAK:
-        return 5 * 60
+        return 5 * 60;
       case TIMER_TYPES.LONG_BREAK:
-        return 15 * 60
+        return 15 * 60;
       default:
-        return 25 * 60
+        return 25 * 60;
     }
-  }
+  };
 
   const formatTime = (seconds: number) => {
-    const mins = Math.floor(seconds / 60)
-    const secs = seconds % 60
-    return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`
-  }
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+  };
 
   const triggerVisualAlert = () => {
-    setShowVisualAlert(true)
-    setTimeout(() => setShowVisualAlert(false), 3000)
-  }
+    setShowVisualAlert(true);
+    setTimeout(() => setShowVisualAlert(false), 3000);
+  };
 
   const addTask = () => {
     if (newTaskText.trim()) {
@@ -146,31 +146,31 @@ export default function SimpleFocusTimer() {
         id: Date.now(),
         text: newTaskText.trim(),
         completed: false
-      }
-      setTasks([...tasks, newTask])
-      setNewTaskText('')
+      };
+      setTasks([...tasks, newTask]);
+      setNewTaskText('');
     }
-  }
+  };
 
   const removeTask = (id: number) => {
-    setTasks(tasks.filter(task => task.id !== id))
+    setTasks(tasks.filter(task => task.id !== id));
     if (currentTask && currentTask.id === id) {
-      setCurrentTask(null)
+      setCurrentTask(null);
     }
-  }
+  };
 
   const completeTask = (id: number) => {
     setTasks(tasks.map(task => 
       task.id === id ? { ...task, completed: true } : task
-    ))
+    ));
     if (currentTask && currentTask.id === id) {
-      setCurrentTask(null)
+      setCurrentTask(null);
     }
-  }
+  };
 
   const selectTask = (task: Task) => {
-    setCurrentTask(task)
-  }
+    setCurrentTask(task);
+  };
 
   return (
     <div className="min-h-screen bg-base-100 p-4 flex items-center justify-center">
@@ -284,5 +284,7 @@ export default function SimpleFocusTimer() {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
+
+export default SimpleFocusTimer;
