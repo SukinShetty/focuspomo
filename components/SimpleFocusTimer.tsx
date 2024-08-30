@@ -1,7 +1,7 @@
 'use client'
 
-import { useState, useEffect } from 'react'
-import { Play, Pause, RotateCcw, Coffee, Brain, Plus, Trash2 } from 'lucide-react'
+import { useState, useEffect, useCallback, useRef } from 'react'
+import { Play, Pause, RotateCcw, Coffee, Brain, Plus, Trash2, VolumeX, Volume2 } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 
 const TIMER_TYPES = {
@@ -25,6 +25,53 @@ export default function SimpleFocusTimer() {
   const [tasks, setTasks] = useState<Task[]>([])
   const [newTaskText, setNewTaskText] = useState('')
   const [showVisualAlert, setShowVisualAlert] = useState(false)
+  const [isRinging, setIsRinging] = useState(false)
+  const [isMuted, setIsMuted] = useState(false)
+  const audioContextRef = useRef<AudioContext | null>(null)
+  const oscillatorRef = useRef<OscillatorNode | null>(null)
+  const gainNodeRef = useRef<GainNode | null>(null)
+
+  const toggleMute = useCallback(() => {
+    setIsMuted(prevMuted => !prevMuted);
+    if (gainNodeRef.current && audioContextRef.current) {
+      gainNodeRef.current.gain.setValueAtTime(
+        isMuted ? 0.5 : 0,
+        audioContextRef.current.currentTime
+      );
+    }
+  }, [isMuted]);
+
+  const startRingingSound = useCallback(() => {
+    if (!audioContextRef.current) {
+      audioContextRef.current = new (window.AudioContext || (window as any).webkitAudioContext)();
+    }
+
+    const audioContext = audioContextRef.current;
+    oscillatorRef.current = audioContext.createOscillator();
+    gainNodeRef.current = audioContext.createGain();
+
+    oscillatorRef.current.connect(gainNodeRef.current);
+    gainNodeRef.current.connect(audioContext.destination);
+
+    oscillatorRef.current.type = 'sine';
+    oscillatorRef.current.frequency.setValueAtTime(440, audioContext.currentTime);
+
+    gainNodeRef.current.gain.setValueAtTime(isMuted ? 0 : 0.5, audioContext.currentTime);
+
+    oscillatorRef.current.start();
+    setIsRinging(true);
+  }, [isMuted]);
+
+  const stopRingingSound = useCallback(() => {
+    if (oscillatorRef.current && gainNodeRef.current && audioContextRef.current) {
+      oscillatorRef.current.stop();
+      oscillatorRef.current.disconnect();
+      gainNodeRef.current.disconnect();
+      oscillatorRef.current = null;
+      gainNodeRef.current = null;
+      setIsRinging(false);
+    }
+  }, []);
 
   useEffect(() => {
     let interval: NodeJS.Timeout | null = null
@@ -36,6 +83,7 @@ export default function SimpleFocusTimer() {
     } else if (time === 0) {
       setIsActive(false)
       triggerVisualAlert()
+      startRingingSound() // Start the continuous ringing sound
       if (timerType === TIMER_TYPES.FOCUS) {
         setSessionCount((prevCount) => prevCount + 1)
         if (currentTask) {
@@ -46,8 +94,14 @@ export default function SimpleFocusTimer() {
 
     return () => {
       if (interval) clearInterval(interval)
+      // Cleanup function to stop and disconnect audio when component unmounts
+      stopRingingSound();
+      if (audioContextRef.current) {
+        audioContextRef.current.close();
+        audioContextRef.current = null;
+      }
     }
-  }, [isActive, time, timerType, currentTask])
+  }, [isActive, time, timerType, currentTask, startRingingSound, stopRingingSound])
 
   const toggleTimer = () => {
     setIsActive(!isActive)
@@ -211,6 +265,14 @@ export default function SimpleFocusTimer() {
               <button onClick={resetTimer} className="btn btn-sm sm:btn-md btn-outline btn-circle">
                 <RotateCcw className="h-4 w-4 sm:h-5 sm:w-5" />
               </button>
+              <button onClick={toggleMute} className="btn btn-sm sm:btn-md btn-outline btn-circle">
+                {isMuted ? <VolumeX className="h-4 w-4 sm:h-5 sm:w-5" /> : <Volume2 className="h-4 w-4 sm:h-5 sm:w-5" />}
+              </button>
+              {isRinging && (
+                <button onClick={stopRingingSound} className="btn btn-sm sm:btn-md btn-outline btn-circle btn-error">
+                  <VolumeX className="h-4 w-4 sm:h-5 sm:w-5" />
+                </button>
+              )}
             </div>
             <div className="text-xs sm:text-sm">Sessions completed: {sessionCount}</div>
             {currentTask && (
