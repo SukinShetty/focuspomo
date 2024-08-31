@@ -73,6 +73,15 @@ const SimpleFocusTimer: React.FC = () => {
     }
   }, []);
 
+  const completeTask = useCallback((id: number) => {
+    setTasks(tasks.map(task => 
+      task.id === id ? { ...task, completed: true } : task
+    ));
+    if (currentTask && currentTask.id === id) {
+      setCurrentTask(null);
+    }
+  }, [tasks, currentTask]);
+
   useEffect(() => {
     let interval: NodeJS.Timeout | null = null;
 
@@ -83,7 +92,7 @@ const SimpleFocusTimer: React.FC = () => {
     } else if (time === 0) {
       setIsActive(false);
       triggerVisualAlert();
-      startRingingSound(); // Start the continuous ringing sound
+      startRingingSound();
       if (timerType === TIMER_TYPES.FOCUS) {
         setSessionCount((prevCount) => prevCount + 1);
         if (currentTask) {
@@ -94,14 +103,13 @@ const SimpleFocusTimer: React.FC = () => {
 
     return () => {
       if (interval) clearInterval(interval);
-      // Cleanup function to stop and disconnect audio when component unmounts
       stopRingingSound();
       if (audioContextRef.current) {
         audioContextRef.current.close();
         audioContextRef.current = null;
       }
     };
-  }, [isActive, time, timerType, currentTask, startRingingSound, stopRingingSound]);
+  }, [isActive, time, timerType, currentTask, startRingingSound, stopRingingSound, completeTask]);
 
   const toggleTimer = () => {
     setIsActive(!isActive);
@@ -159,15 +167,6 @@ const SimpleFocusTimer: React.FC = () => {
     }
   };
 
-  const completeTask = (id: number) => {
-    setTasks(tasks.map(task => 
-      task.id === id ? { ...task, completed: true } : task
-    ));
-    if (currentTask && currentTask.id === id) {
-      setCurrentTask(null);
-    }
-  };
-
   const selectTask = (task: Task) => {
     setCurrentTask(task);
   };
@@ -182,7 +181,7 @@ const SimpleFocusTimer: React.FC = () => {
             <li><strong>Set a timer:</strong> Set a timer for 25 minutes.</li>
             <li><strong>Work:</strong> Focus on the task until the timer rings (Switch off all your notifications).</li>
             <li><strong>Take a break:</strong> After the timer rings, take a short break of 5 minutes.</li>
-            <li><strong>Repeat:</strong> Return to step 2 and repeat the cycle until you've completed four pomodoros.</li>
+            <li><strong>Repeat:</strong> Return to step 2 and repeat the cycle until you&apos;ve completed four pomodoros.</li>
             <li><strong>Take a longer break:</strong> After four pomodoros, take a longer break of 15 minutes.</li>
             <li><strong>Repeat:</strong> Once the break is over, return to step 2 and repeat the cycle.</li>
           </ol>
