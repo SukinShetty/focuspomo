@@ -7,8 +7,8 @@ import { motion, AnimatePresence } from 'framer-motion'
 const TIMER_TYPES = {
   FOCUS: 'focus',
   SHORT_BREAK: 'shortBreak',
-  LONG_BREAK: 'longBreak'
-}
+  LONG_BREAK: 'longBreak',
+};
 
 interface Task {
   id: number;
@@ -173,9 +173,21 @@ const SimpleFocusTimer: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-base-100 p-4 flex items-center justify-center">
-      <div className="w-full max-w-[98%] sm:max-w-md">
-        <div className="bg-base-100 shadow-xl rounded-lg p-4 sm:p-6">
+    <div className="min-h-screen bg-base-100 p-4 flex">
+      <div className="w-full flex flex-col sm:flex-row gap-4">
+        <div className="bg-base-100 shadow-xl rounded-lg p-4 sm:p-6 sm:w-1/3 self-start">
+          <h2 className="text-lg sm:text-xl font-bold text-center mb-4">How to use Pomodoro timer:</h2>
+          <ol className="list-decimal list-inside space-y-2 text-xs sm:text-sm">
+            <li><strong>Choose a task:</strong> Pick a task to complete.</li>
+            <li><strong>Set a timer:</strong> Set a timer for 25 minutes.</li>
+            <li><strong>Work:</strong> Focus on the task until the timer rings (Switch off all your notifications).</li>
+            <li><strong>Take a break:</strong> After the timer rings, take a short break of 5 minutes.</li>
+            <li><strong>Repeat:</strong> Return to step 2 and repeat the cycle until you've completed four pomodoros.</li>
+            <li><strong>Take a longer break:</strong> After four pomodoros, take a longer break of 15 minutes.</li>
+            <li><strong>Repeat:</strong> Once the break is over, return to step 2 and repeat the cycle.</li>
+          </ol>
+        </div>
+        <div className="bg-base-100 shadow-xl rounded-lg p-4 sm:p-6 sm:w-2/3">
           <h2 className="text-xl sm:text-2xl font-bold text-center mb-4">Simple Focus Timer</h2>
           <div className="flex flex-col items-center space-y-3 sm:space-y-4">
             <motion.div 
