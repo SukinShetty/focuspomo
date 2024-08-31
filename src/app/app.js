@@ -42,4 +42,14 @@ function App() {
       </div>
     );
   }
+
+  // Add a return statement for when there is a session
+  return (
+    <div>
+      <h1>Welcome, {session.user.email}</h1>
+      {/* Add your authenticated app content here */}
+    </div>
+  );
 }
+
+export default App;
